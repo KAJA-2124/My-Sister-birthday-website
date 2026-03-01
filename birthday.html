@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>19th Birthday Wishes For My Thangam 💖</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffe6f0, #fff);
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 25px;
+            background: #ff66b2;
+            color: white;
+            font-size: 1rem;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(255, 105, 180, 0.3);
+            position: relative;
+        }
+
+        .timer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .timer div {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            width: 70px;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #ff66b2;
+            transition: width .4s ease;
+        }
+
+        .glow {
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px #ff99cc;
+            }
+
+            to {
+                box-shadow: 0 0 30px #ff3399;
+            }
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            animation: floatUp 2s linear forwards;
+        }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-200px);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- COUNTDOWN -->
+    <section id="startSection">
+        <h1>She Turns 19 💛</h1>
+
+        <div class="timer">
+            <div>
+                <h2 id="days">00</h2><small>Days</small>
+            </div>
+            <div>
+                <h2 id="hours">00</h2><small>Hours</small>
+            </div>
+            <div>
+                <h2 id="minutes">00</h2><small>Minutes</small>
+            </div>
+            <div>
+                <h2 id="seconds">00</h2><small>Seconds</small>
+            </div>
+        </div>
+        <div>
+            <br><br>
+            <h1 style="font-size: 18px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">this surprise
+                Revealing soon at today night 12.00 Am💕</h1>
+        </div>
+
+        <button id="celebrationBtn" onclick="startCelebration()" style="display:none;">
+            Go To The Celebration 🎉
+        </button>
+    </section>
+
+    <!-- MESSAGE -->
+    <section id="messageSection" style="display:none;">
+        <h2>Happy 19th Birthday da thangameyy 💛</h2>
+        <p>
+            19 years ago our home became brighter because of you ✨
+            You’re not just my sister…
+            You’re my strength, my happiness, my forever support 💕
+        </p>
+        <button onclick="showPreQuiz()">Continue 💌</button>
+    </section>
+
+    <!-- PRE QUIZ PERMISSION -->
+    <section id="preQuizSection" style="display:none;">
+        <h2>Before we continue… 💛</h2>
+        <p>
+            This is not just a normal surprise.
+            I made something small for you, but it comes from a very big place in my heart.
+
+            The next part is a little game…
+            but inside that game, there are things I don’t always say openly.
+
+            If you’re ready to feel something special,
+            and if you give me permission to ask you a few heartfelt questions…
+            then press below 💖
+        </p>
+        <button onclick="goToQuiz()">Yes… I’m Ready 💌</button>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quizSection" style="display:none;">
+        <div class="quiz-card">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <h3 id="question"></h3>
+            <button onclick="answerYes()">Yes 💖</button>
+            <button id="noBtn">No 😜</button>
+        </div>
+    </section>
+
+    <!-- AFTER QUIZ -->
+    <section id="afterQuizSection" style="display:none;">
+        <h2>Wait… one more thing 💛</h2>
+        <p>
+            All those questions were not just for fun.
+            I wanted you to feel how deeply you’re loved,
+            and how protected you’ll always be.
+        </p>
+        <button onclick="goToFinal()">Next 💌</button>
+    </section>
+
+    <!-- FINAL -->
+    <section id="finalSection" style="display:none;">
+        <h2 class="glow">Happy 19th Birthday Papaaa... 💛</h2>
+        <p id="finalMessage"></p>
+    </section>
+
+    <script>
+
+        /* MUSIC */
+        const bgMusic = document.getElementById("bgMusic");
+        let musicStarted = false;
+        document.addEventListener("click", () => {
+            if (!musicStarted) {
+                bgMusic.volume = 0;
+                bgMusic.play();
+                let fade = setInterval(() => {
+                    if (bgMusic.volume < 0.5) { bgMusic.volume += 0.02; }
+                    else clearInterval(fade);
+                }, 200);
+                musicStarted = true;
+            }
+        });
+
+        /* COUNTDOWN */
+        const birthday = new Date(2026, 2, 4, 0, 0, 0).getTime(); // March 4, 2026
+        const celebrationBtn = document.getElementById("celebrationBtn");
+
+        const countdownTimer = setInterval(function () {
+
+            const now = new Date().getTime();
+            const distance = birthday - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+            // document.getElementById("seconds").innerHTML = "Revealing Sooon your Birthday";
+
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.querySelector(".timer").style.display = "none";
+                celebrationBtn.style.display = "inline-block";
+            }
+
+        }, 1000);
+
+        /* NAVIGATION */
+        function startCelebration() {
+            document.getElementById("startSection").style.display = "none";
+            document.getElementById("messageSection").style.display = "flex";
+        }
+
+        function showPreQuiz() {
+            document.getElementById("messageSection").style.display = "none";
+            document.getElementById("preQuizSection").style.display = "flex";
+        }
+
+        function goToQuiz() {
+            document.getElementById("preQuizSection").style.display = "none";
+            document.getElementById("quizSection").style.display = "flex";
+            loadQuestion();
+        }
+
+        /* STRONG 10 QUESTIONS */
+        const questions = [
+            "Do you know you’ll always have a safe place with me? 💛",
+            "When life feels heavy, will you let me stand beside you? 🥺",
+            "Do you trust I’ll always understand your heart? 💕",
+            "Will you remember your biggest silent supporter is your annaeyyy? 👑",
+            "If you ever feel lost, will you let me remind you how powerful you are? ✨",
+            "Do you realize your smile fixes things in me? 😊💖",
+            "Will you always stay my little cutie at heart? 🥹",
+            "If you doubt yourself, will you remember I believe in you? 💛",
+            "When life tests you, will you remember you're never alone? 💕",
+            "Do you know loving and protecting you is my greatest blessing? 💖"
+        ];
+
+        let currentQuestion = 0;
+        const questionEl = document.getElementById("question");
+        const progressFill = document.getElementById("progressFill");
+        const noBtn = document.getElementById("noBtn");
+
+        function loadQuestion() {
+            questionEl.innerText = questions[currentQuestion];
+            progressFill.style.width = (currentQuestion / questions.length) * 100 + "%";
+        }
+
+        function answerYes() {
+            createHearts();
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quizSection").style.display = "none";
+                document.getElementById("afterQuizSection").style.display = "flex";
+            }
+        }
+
+        noBtn.addEventListener("mouseenter", moveNoButton);
+        noBtn.addEventListener("touchstart", moveNoButton);
+
+        function moveNoButton() {
+            if (navigator.vibrate) navigator.vibrate(100);
+            const x = Math.random() * 150 - 75;
+            const y = Math.random() * 80 - 40;
+            noBtn.style.transform = `translate(${x}px,${y}px)`;
+            setTimeout(() => { noBtn.style.transform = "translate(0,0)"; }, 800);
+        }
+
+        function goToFinal() {
+            document.getElementById("afterQuizSection").style.display = "none";
+            launchFireworks();
+            createConfetti();
+            document.getElementById("finalSection").style.display = "flex";
+            typeWriterEffect();
+        }
+
+        /* FINAL MESSAGE UPGRADED */
+        const finalText = `
+Happy 19th Birthday Papaaa... , my forever little sunshine 💛
+
+No matter how tall you grow,
+no matter how strong you become,
+you will always be that small heartbeat
+that makes this home warmer
+and my life stronger.
+
+Watching you grow is one of the greatest blessings in my life.
+I may not always say it out loud,
+but I am proud of you every single day.
+
+Stay fearless.
+Stay kind.
+Stay beautifully you.
+
+And remember —
+your anna is always right behind you,
+supporting you,
+protecting you,
+and silently praying for your happiness. 💖
+
+Forever your Annaeyyy
+Forever your Shield. 💛
+
+
+Luv uh Forever by your's annaeyyy like a Father.... 💕
+luv uh da thangameyy... 💖
+`;
+
+        function typeWriterEffect() {
+            const element = document.getElementById("finalMessage");
+            let i = 0;
+            function type() {
+                if (i < finalText.length) {
+                    element.innerHTML += finalText.charAt(i) === "\n" ? "<br>" : finalText.charAt(i);
+                    i++;
+                    setTimeout(type, 35);
+                }
+            }
+            type();
+        }
+
+        /* HEARTS */
+        function createHearts() {
+            for (let i = 0; i < 8; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "💖";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.bottom = "0px";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+
+        /* CONFETTI */
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.backgroundColor = "hsl(" + Math.random() * 360 + ",100%,50%)";
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        /* FIREWORKS */
+        const canvas = document.getElementById("fireworksCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let fireworks = [];
+
+        class Firework {
+            constructor(x, y) {
+                this.particles = [];
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push({ x: x, y: y, angle: Math.random() * 2 * Math.PI, speed: Math.random() * 4 + 1, alpha: 1 });
+                }
+            }
+            update() {
+                this.particles.forEach(p => {
+                    p.x += Math.cos(p.angle) * p.speed;
+                    p.y += Math.sin(p.angle) * p.speed;
+                    p.alpha -= 0.02;
+                });
+            }
+            draw() {
+                this.particles.forEach(p => {
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = `hsl(${Math.random() * 360},100%,60%)`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+        }
+
+        function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fireworks.forEach((fw, index) => {
+                fw.update(); fw.draw();
+                if (fw.particles[0].alpha <= 0) fireworks.splice(index, 1);
+            });
+            requestAnimationFrame(animateFireworks);
+        }
+
+        function launchFireworks() {
+            for (let i = 0; i < 5; i++) {
+                fireworks.push(new Firework(Math.random() * canvas.width, Math.random() * canvas.height / 2));
+            }
+        }
+
+        animateFireworks();
+    </script>
+</body>
+
+</html>
